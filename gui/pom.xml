@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>org.jboss.wise</groupId>
+        <artifactId>wise-rest</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <name>Wise GUI</name>
+    <artifactId>wise-rest-gui</artifactId>
+    <packaging>war</packaging>
+    <description>A REST interface for JBoss Wise Core</description>
+
+
+    <properties>
+        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+    </properties>
+
+    <dependencies>
+      <dependency>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-dmr</artifactId>
+        <scope>provided</scope>
+      </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ws.rs</groupId>
+            <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.wise</groupId>
+            <artifactId>wise-core-cxf</artifactId>
+        </dependency>
+
+        <!-- APIs provided in AS modules.  Exclude from WAR -->
+        <dependency>
+            <groupId>org.jboss.logging</groupId>
+            <artifactId>jboss-logging</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wildfly.core</groupId>
+            <artifactId>wildfly-controller-client</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.xnio</groupId>
+            <artifactId>xnio-nio</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.threads</groupId>
+            <artifactId>jboss-threads</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.remoting</groupId>
+            <artifactId>jboss-remoting</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.el</groupId>
+            <artifactId>jboss-el-api_3.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-dmr</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.xnio</groupId>
+            <artifactId>xnio-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <!-- Generate compiled stuff in the folder used for developing mode -->
+        <outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
+
+        <plugins>
+            <!-- Copy static web files before executing gwt:run -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.1.1</version>
+            <executions>
+                <execution>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>exploded</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+              <failOnMissingWebXml>false</failOnMissingWebXml>
+              <!--
+              <warName>rest-helloworld</warName>
+              -->
+              <!-- rls test
+                <webappDirectory>${webappDirectory}</webappDirectory>
+                <packagingExcludes>WEB-INF/deploy/**</packagingExcludes>
+              -->
+            </configuration>
+        </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+    
+    <profiles>
+        <!-- [JBWS-3666] -->
+	    <profile>
+	      <id>eclipse-m2e</id>
+	      <activation>
+	        <property>
+	          <name>!eclipse-m2e</name>
+	        </property>
+	      </activation>
+	      <build>
+	        <pluginManagement>
+	          <plugins>
+	            <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+	            <plugin>
+	              <groupId>org.eclipse.m2e</groupId>
+	              <artifactId>lifecycle-mapping</artifactId>
+	              <version>1.0.0</version>
+	              <configuration>
+	                <lifecycleMappingMetadata>
+	                <pluginExecutions>
+	                  <pluginExecution>
+	                    <pluginExecutionFilter>
+	                      <groupId>org.apache.maven.plugins</groupId>
+	                      <artifactId>maven-war-plugin</artifactId>
+	                      <versionRange>[2.1.1,)</versionRange>
+	                      <goals>
+	                        <goal>exploded</goal>
+	                      </goals>
+	                    </pluginExecutionFilter>
+	                    <action>
+	                      <ignore />
+	                    </action>
+	                  </pluginExecution>
+	                </pluginExecutions>
+	                </lifecycleMappingMetadata>
+	              </configuration>
+	            </plugin>
+	          </plugins>
+	        </pluginManagement>
+	      </build>
+	    </profile>
+    </profiles>
+
+</project>
