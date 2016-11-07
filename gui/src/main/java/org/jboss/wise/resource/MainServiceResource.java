@@ -21,6 +21,8 @@ import org.jboss.wise.gwt.shared.tree.element.TreeElement;
 import org.jboss.wise.shared.GWTClientConversationBean;
 
 /**
+ * REST interface for WISE.
+ *
  * User: rsearls
  * Date: 11/4/16
  */
@@ -54,17 +56,7 @@ public class MainServiceResource {
         sortAddressDetails(wsdlAddress);
         return Response.status(200).entity(wsdlAddress).build();
     }
-    /**
-    public ArrayList<WsdlAddress> getAddressDetails() {
-        ArrayList<WsdlAddress> wsdlAddress = new ArrayList<WsdlAddress>();
-        List<String> wsdlList = gwtClientConversationBean.getWsdlList();
-        for (int i = 0; i < wsdlList.size(); ++i) {
-            WsdlAddress detail = new WsdlAddress(String.valueOf(i), wsdlList.get(i));
-            wsdlAddress.add(detail);
-        }
-        return sortAddressDetails(wsdlAddress);
-    }
-    **/
+
     @POST
     @Path("endpoints")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -105,6 +97,7 @@ public class MainServiceResource {
     }
     ***/
     /** rls test data only **/
+    /**
     @GET
     @Path("wsdlinfo")
     @Produces(MediaType.APPLICATION_JSON)
@@ -114,6 +107,7 @@ public class MainServiceResource {
         wsdlInfo.setWsdl("http://localhost:8080/wise-test-datatypes?wsdl");
         return Response.status(200).entity(wsdlInfo).build();
     }
+    **/
 
     @POST
     @Path("config")
